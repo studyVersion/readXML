@@ -30,25 +30,25 @@ public class Jugador {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		Jugador.nombre = nombre;
 	}
 	public String getApellido() {
 		return apellido;
 	}
 	public void setApellido(String apellido) {
-		this.apellido = apellido;
+		Jugador.apellido = apellido;
 	}
 	public int getEdad() {
 		return edad;
 	}
 	public void setEdad(int edad) {
-		this.edad = edad;
+		Jugador.edad = edad;
 	}
 	public int getDorsal() {
 		return dorsal;
 	}
 	public void setDorsal(int dorsal) {
-		this.dorsal = dorsal;
+		Jugador.dorsal = dorsal;
 	}
 	@Override
 	public String toString() {
@@ -57,14 +57,16 @@ public class Jugador {
 	public void imprimirConsolaJugador() {
 		System.out.println("#-------------------------------#");
 		System.out.println("Datos del jugador: ");
-		System.out.println("Nombre: "  +this.nombre + '\t'+" Apellidos: "+ this.apellido);
-		System.out.println("Dorsal: "+ this.dorsal + '\t'+" Edad: "+ this.edad+ '\t');
+		System.out.println("Nombre: "  +nombre + '\t'+" Apellidos: "+ apellido);
+		System.out.println("Dorsal: "+ dorsal + '\t'+" Edad: "+ edad+ '\t');
 		System.out.println("#-------------------------------#");
 	}// imprimir consola jugador
 	
 	
 	// metodo para escribir en un fichero XML
+	
 	 public static void grabarJugadorXML(List<Jugador> players) throws ParserConfigurationException, DOMException, TransformerException, IOException {
+		
 		 System.out.println("Type the name of the file: ");
 		 String file = in.nextLine();
 		 String nombreFichero = file+".xml";
@@ -91,8 +93,11 @@ public class Jugador {
          doc.appendChild(equipo);
          
          for(Jugador player : players ) {
-        	 Element Jugadors = doc.createElement("Jugador");
-             equipo.appendChild(Jugadors);
+        	 
+         //elemento padre
+         Element Jugadors = doc.createElement("Jugador");
+         equipo.appendChild(Jugadors);
+             
          // child element
          Element nombreJ = doc.createElement("Nombre");
          nombreJ.setTextContent(nombre);
