@@ -15,12 +15,11 @@ import org.w3c.dom.DOMException;
 
 public class Main {
 	 static Scanner in = new Scanner(System.in);
+	 
+	 
 	public static void main(String[] args) throws DOMException, ParserConfigurationException, TransformerException, IOException {
 		
-		Jugador player1 = new Jugador();
-		
-		
-		player1.grabarJugadorXML(pedirDatosJugador());
+		Jugador.grabarJugadorXML(pedirDatosJugador());
 		
 		// Menu para leer y escribir datos XML
 		

@@ -12,12 +12,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -78,7 +75,7 @@ public class Jugador {
 				 System.out.println("Permisos L/E OK.");
 			 }
 		 }else {
-			 System.out.println("El fichero NO existe.");
+			 System.out.println("El fichero NO existe, se ha creado uno nuevo.");
 		 }
 		 // Creamos la estructura para manejar el XML
 		 DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
@@ -116,7 +113,7 @@ public class Jugador {
          edadJ.setTextContent(String.valueOf(edad));
          Jugadors.appendChild(edadJ);
        
-         OutputStream output = new FileOutputStream(ficheroXML);
+         OutputStream output = new FileOutputStream(ficheroXML, true);
          writeXml(doc, output);
          }
 	 }// grabar jugador
@@ -127,8 +124,8 @@ public class Jugador {
 	      Transformer transformer = transformerFactory.newTransformer();
 	      
 	      // make XML look orgonized
-	     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-	     
+	     transformer.setOutputProperty(OutputKeys.INDENT,"yes" );// for adding the declaration
+	     transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 	     DOMSource source = new DOMSource(doc);
 	     StreamResult result = new StreamResult(output);
 
