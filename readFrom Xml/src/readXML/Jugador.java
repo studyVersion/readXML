@@ -1,14 +1,26 @@
 package readXML;
 
-import java.io.File;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import java.io.File;
+import java.io.OutputStream;
+
+
 
 public class Jugador {
-	private String nombre, apellido;
-	private int edad, dorsal;
+	private static String nombre;
+	private static String apellido;
+	private static int edad;
+	private static int dorsal;
 	public String getNombre() {
 		return nombre;
 	}
@@ -47,8 +59,8 @@ public class Jugador {
 	
 	
 	// metodo para escribir en un fichero XML
-	 public static void grabarJugadorXML(String a) throws ParserConfigurationException {
-		 String nombreFichero = a;
+	 public static void grabarJugadorXML() throws ParserConfigurationException, DOMException, TransformerException {
+		 /*String nombreFichero = a;
 		 File ficheroXML = new File(nombreFichero);
 		 if (ficheroXML.exists()) {
 			 System.out.println("El fichero "+ficheroXML+" existe.");
@@ -57,14 +69,57 @@ public class Jugador {
 			 }
 		 }else {
 			 System.out.println("El fichero NO existe.");
-		 }
+		 }*/
 		 // Creamos la estructura para manejar el XML
-		 DocumentBuilderFactory db = DocumentBuilderFactory.newInstance();
+		 DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
 		 
-         DocumentBuilder documentBuilder = db.newDocumentBuilder();
+         DocumentBuilder docBuilder = docFac.newDocumentBuilder();
 		 
+         Document doc = docBuilder.newDocument();
+         
+         // root elements
+         Element Jugador = doc.createElement("Jugador");
+         doc.appendChild(Jugador);
+         
+         // child element
+         Element nombreJ = doc.createElement("Nombre");
+         nombreJ.setTextContent(nombre);
+         Jugador.appendChild(nombreJ);
+         
+         // child element
+         Element apellidoJ = doc.createElement("Apellido");
+         apellidoJ.setTextContent(apellido);
+         Jugador.appendChild(apellidoJ);
+         
+         // child element
+         Element dorsalJ = doc.createElement("Dorsal");
+         dorsalJ.setTextContent(String.valueOf(dorsal));
+         Jugador.appendChild(dorsalJ);
+         
+         // child element
+         Element edadJ = doc.createElement("Edad");
+         edadJ.setTextContent(String.valueOf(edad));
+         Jugador.appendChild(edadJ);
+         
+         
+         writeXml(doc, System.out);
+         
 	 }// grabar jugador
 
+	 // metodo parra escribir doc en stream output
+	 public static void writeXml(Document doc, OutputStream output) throws TransformerException {
+		 TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	      Transformer transformer = transformerFactory.newTransformer();
+	      
+	      // make xml loo good
+	     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+	     
+	     DOMSource source = new DOMSource(doc);
+	     StreamResult result = new StreamResult(output);
+
+	     transformer.transform(source, result);
+	 }
+	 
 	
 }//clase
 
